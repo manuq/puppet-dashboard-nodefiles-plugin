@@ -1,0 +1,12 @@
+#sidebar= render 'shared/node_manager_sidebar'
+#main
+  .header
+    %h2
+      Files
+
+  %table.inspector.main
+    %tbody
+      - @node_files.each do |n|
+        %tr
+          %td
+            %a{:href=>"/nodefiles/" + n.filename}= n.filename
