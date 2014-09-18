@@ -1,5 +1,6 @@
 class NodeFile < ActiveRecord::Base
   validates_presence_of :filename, :host
+  validates_uniqueness_of :filename, :scope => :host
   belongs_to :node
   before_validation :assign_to_node
 
