@@ -9,4 +9,4 @@
       - @node_files.each do |n|
         %tr
           %td
-            %a{:href=>"/nodefiles/" + n.filename}= n.filename
+            %a{:href=>"/nodefiles/" + n.host + "/" + n.filename}= n.filename

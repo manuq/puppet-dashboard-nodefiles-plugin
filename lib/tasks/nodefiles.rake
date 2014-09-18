@@ -10,7 +10,7 @@ namespace :nodefiles do
     raise "Nodefiles dir does not exist: #{nodefiles_dir}" unless File.exists?(nodefiles_dir)
     raise "Nodefiles dir is not a directory: #{nodefiles_dir}" unless File.directory?(nodefiles_dir)
     raise "Nodefiles dir is not readable: #{nodefiles_dir}" unless File.readable?(nodefiles_dir)
-    nodefiles = FileList[File.join(nodefiles_dir, '**', '*')]
+    nodefiles = FileList[File.join(nodefiles_dir, '*', '*')]
 
     puts "Importing #{nodefiles.size} #{plural['nodefile', nodefiles.size]} from #{nodefiles_dir} in the background"
 
@@ -20,19 +20,20 @@ namespace :nodefiles do
       success = begin
         #Report.delay.create_from_yaml_file(report)
 
-        directory = "public/nodefiles"
+        filename = File.basename(nodefile)
+        host = File.basename(File.dirname(nodefile))
+
+        directory = File.join("public/nodefiles", host)
         unless File.directory?(directory)
           FileUtils.mkdir_p(directory)
         end
-
-        filename = File.basename(nodefile)
 
         path = File.join(directory, filename)
         File.open(path, "wb") do |f|
           f.write(File.open(nodefile).read)
         end
 
-        f = NodeFile.create(:filename => filename)
+        f = NodeFile.create(:filename => filename, :host => host)
         f.save()
 
       rescue => e
