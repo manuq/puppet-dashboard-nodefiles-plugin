@@ -1,7 +1,12 @@
 #sidebar= render 'shared/node_manager_sidebar'
 #main
   .header
-    %h2= "Files for " + @node.name
+    %h2
+      Files
+      - if @node
+        %span.alt for
+        = link_to h(@node.name), @node
+      %span.count== (#{@node_files.length})
 
   %table.inspector.main
     %tbody
