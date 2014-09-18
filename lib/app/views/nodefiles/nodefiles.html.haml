@@ -1,8 +1,7 @@
 #sidebar= render 'shared/node_manager_sidebar'
 #main
   .header
-    %h2
-      Files
+    %h2= "Files for " + @node.name
 
   %table.inspector.main
     %tbody
